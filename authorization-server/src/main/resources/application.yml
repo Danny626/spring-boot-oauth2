@@ -22,3 +22,17 @@ spring:
     username: postgres
     password: asd.123
     driverClassName: org.postgresql.Driver
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google-idp:
+            provider: google
+            client-id: ${GOOGLE_CLIENT_ID:171814124382-5j4a4mc8ihu2n1so0pue11fa8jee2ksu.apps.googleusercontent.com}
+            client-secret: ${GOOGLE_CLIENT_SECRET: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}
+            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
+            client-name: oauth2-tutorial-client
+        provider:
+          google:
+            user-name-attribute: email
