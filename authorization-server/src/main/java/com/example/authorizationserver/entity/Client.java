@@ -31,6 +31,7 @@ public class Client {
     // TODO seria adecuado crear el onetomany manytoone en otra clase para redirectUris
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> redirectUris;
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> scopes;
     private boolean requireProofKey;
 
