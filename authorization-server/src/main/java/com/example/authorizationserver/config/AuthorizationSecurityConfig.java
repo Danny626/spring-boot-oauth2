@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
@@ -56,9 +55,8 @@ public class AuthorizationSecurityConfig {
 
     @Bean
     @Order(1)
-    /*public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, RegisteredClientRepository registeredClientRepository,
-                                                                      AuthorizationServerSettings authorizationServerSettings)*/
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, RegisteredClientRepository registeredClientRepository,
+                                                                      AuthorizationServerSettings authorizationServerSettings)
         throws Exception {
         /*OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
@@ -80,24 +78,24 @@ public class AuthorizationSecurityConfig {
 
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-        /*DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
+        DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
             new DeviceClientAuthenticationConverter(
                 authorizationServerSettings.getDeviceAuthorizationEndpoint());
         DeviceClientAuthenticationProvider deviceClientAuthenticationProvider =
-            new DeviceClientAuthenticationProvider(registeredClientRepository);*/
+            new DeviceClientAuthenticationProvider(registeredClientRepository);
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-            /*.deviceAuthorizationEndpoint(deviceAuthorizationEndpoint ->
+            .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint ->
                 deviceAuthorizationEndpoint.verificationUri("/activate")
-            )*/
-            /*.deviceVerificationEndpoint(deviceVerificationEndpoint ->
+            )
+            .deviceVerificationEndpoint(deviceVerificationEndpoint ->
                 deviceVerificationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)
-            )*/
-            /*.clientAuthentication(clientAuthentication ->
+            )
+            .clientAuthentication(clientAuthentication ->
                 clientAuthentication
                     .authenticationConverter(deviceClientAuthenticationConverter)
                     .authenticationProvider(deviceClientAuthenticationProvider)
-            )*/
+            )
             .authorizationEndpoint(authorizationEndpoint ->
                 authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
             .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
