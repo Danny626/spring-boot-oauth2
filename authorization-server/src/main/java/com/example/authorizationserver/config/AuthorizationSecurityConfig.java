@@ -3,6 +3,8 @@ package com.example.authorizationserver.config;
 import com.example.authorizationserver.authentication.DeviceClientAuthenticationProvider;
 import com.example.authorizationserver.federated.FederatedIdentityAuthenticationSuccessHandler;
 import com.example.authorizationserver.federated.FederatedIdentityConfigurer;
+import com.example.authorizationserver.federated.UserRepositoryOAuth2UserHandler;
+import com.example.authorizationserver.repository.GoogleUserRepository;
 import com.example.authorizationserver.service.ClientService;
 import com.example.authorizationserver.web.authentication.DeviceClientAuthenticationConverter;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -51,6 +53,7 @@ public class AuthorizationSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
     private final ClientService clientService;
+    private final GoogleUserRepository googleUserRepository;
     private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
     @Bean
@@ -117,6 +120,9 @@ public class AuthorizationSecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
+        FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer()
+            .oauth2UserHandler(new UserRepositoryOAuth2UserHandler(googleUserRepository));
+
         // TODO la ruta /client/** debe estar protegida para sólo accedo de administrador
         http
             .authorizeHttpRequests(authorize ->
@@ -132,7 +138,8 @@ public class AuthorizationSecurityConfig {
                 oauth2Login
                     .loginPage("/login")
                     .successHandler(authenticationSuccessHandler())
-            );
+            )
+            .apply(federatedIdentityConfigurer);
         http.csrf(csrf -> csrf
             .ignoringRequestMatchers("/auth/**", "/client/**"));
 
