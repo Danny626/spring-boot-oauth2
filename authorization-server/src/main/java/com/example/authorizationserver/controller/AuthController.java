@@ -1,7 +1,7 @@
 package com.example.authorizationserver.controller;
 
-import com.example.authorizationserver.dto.CreateAppUserDto;
-import com.example.authorizationserver.dto.MessageDto;
+import com.example.authorizationserver.dto.request.CreateAppUserRequest;
+import com.example.authorizationserver.dto.response.MessageResponse;
 import com.example.authorizationserver.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class AuthController {
     private final AppUserService appUserService;
 
     @PostMapping("/create")
-    public ResponseEntity<MessageDto> createUser(@RequestBody CreateAppUserDto dto) {
+    public ResponseEntity<MessageResponse> createUser(@RequestBody CreateAppUserRequest dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(appUserService.createUser(dto));
     }
 }

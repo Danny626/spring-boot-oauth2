@@ -1,8 +1,8 @@
-package com.example.authorizationserver.dto;
+package com.example.authorizationserver.dto.request;
 
 import java.util.List;
 
-public record CreateAppUserDto (
+public record CreateAppUserRequest(
     String username,
     String password,
     List<String> roles

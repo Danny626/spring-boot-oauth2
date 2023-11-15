@@ -1,7 +1,7 @@
 package com.example.authorizationserver.controller;
 
-import com.example.authorizationserver.dto.CreateClientDto;
-import com.example.authorizationserver.dto.MessageDto;
+import com.example.authorizationserver.dto.request.CreateClientRequest;
+import com.example.authorizationserver.dto.response.MessageResponse;
 import com.example.authorizationserver.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<MessageDto> create (@RequestBody CreateClientDto dto) {
+    public ResponseEntity<MessageResponse> create (@RequestBody CreateClientRequest dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clientService.create(dto));
     }
 }

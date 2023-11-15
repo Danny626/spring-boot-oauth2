@@ -1,7 +1,7 @@
 package com.example.authorizationserver.service;
 
-import com.example.authorizationserver.dto.CreateAppUserDto;
-import com.example.authorizationserver.dto.MessageDto;
+import com.example.authorizationserver.dto.request.CreateAppUserRequest;
+import com.example.authorizationserver.dto.response.MessageResponse;
 import com.example.authorizationserver.entity.AppUser;
 import com.example.authorizationserver.entity.Role;
 import com.example.authorizationserver.enums.RoleName;
@@ -23,7 +23,7 @@ public class AppUserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public MessageDto createUser(CreateAppUserDto dto) {
+    public MessageResponse createUser(CreateAppUserRequest dto) {
         AppUser appUser = AppUser.builder()
             .username(dto.username())
             .password(passwordEncoder.encode(dto.password()))
@@ -37,6 +37,6 @@ public class AppUserService {
         appUser.setRoles(roles);
         appUserRepository.save(appUser);
 
-        return new MessageDto("user " + appUser.getUsername() + " saved");
+        return new MessageResponse("user " + appUser.getUsername() + " saved");
     }
 }
