@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
 @Builder
 public class ClientRedirectUrl {
     @Id

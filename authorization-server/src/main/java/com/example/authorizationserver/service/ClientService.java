@@ -49,7 +49,9 @@ public class ClientService implements RegisteredClientRepository {
         var scopes = request
             .getScopes()
             .stream()
-            .map(clientScope -> new ClientScope())
+            .map(clientScope -> ClientScope.builder()
+                .scope(clientScope)
+                .build())
             .collect(Collectors.toSet());
 //        scopes.forEach(clientScopeRepository::save);
 
