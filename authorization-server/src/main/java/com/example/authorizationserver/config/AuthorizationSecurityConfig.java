@@ -79,6 +79,7 @@ public class AuthorizationSecurityConfig {
 
         return http.build();*/
 
+        http.cors(Customizer.withDefaults());
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
@@ -120,6 +121,7 @@ public class AuthorizationSecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(Customizer.withDefaults());
         FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer()
             .oauth2UserHandler(new UserRepositoryOAuth2UserHandler(googleUserRepository));
 
