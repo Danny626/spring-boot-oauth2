@@ -1,12 +1,10 @@
 package com.example.authorizationserver.config;
 
-import com.example.authorizationserver.authentication.DeviceClientAuthenticationProvider;
 import com.example.authorizationserver.federated.FederatedIdentityAuthenticationSuccessHandler;
 import com.example.authorizationserver.federated.FederatedIdentityConfigurer;
 import com.example.authorizationserver.federated.UserRepositoryOAuth2UserHandler;
 import com.example.authorizationserver.repository.GoogleUserRepository;
 import com.example.authorizationserver.service.ClientService;
-import com.example.authorizationserver.web.authentication.DeviceClientAuthenticationConverter;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -80,16 +78,18 @@ public class AuthorizationSecurityConfig {
         return http.build();*/
 
         http.cors(Customizer.withDefaults());
+        http.csrf(csrf -> csrf
+            .ignoringRequestMatchers("/auth/**", "/client/**"));
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-        DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
+        /*DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
             new DeviceClientAuthenticationConverter(
                 authorizationServerSettings.getDeviceAuthorizationEndpoint());
         DeviceClientAuthenticationProvider deviceClientAuthenticationProvider =
-            new DeviceClientAuthenticationProvider(registeredClientRepository);
+            new DeviceClientAuthenticationProvider(registeredClientRepository);*/
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-            .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint ->
+            /*.deviceAuthorizationEndpoint(deviceAuthorizationEndpoint ->
                 deviceAuthorizationEndpoint.verificationUri("/activate")
             )
             .deviceVerificationEndpoint(deviceVerificationEndpoint ->
@@ -99,11 +99,13 @@ public class AuthorizationSecurityConfig {
                 clientAuthentication
                     .authenticationConverter(deviceClientAuthenticationConverter)
                     .authenticationProvider(deviceClientAuthenticationProvider)
-            )
-            .authorizationEndpoint(authorizationEndpoint ->
-                authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
+            )*/
+            /*.authorizationEndpoint(authorizationEndpoint ->
+                authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))*/
             .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
 
+        http
+            .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
         http
             .exceptionHandling((exceptions) -> exceptions
                 .defaultAuthenticationEntryPointFor(
@@ -113,7 +115,6 @@ public class AuthorizationSecurityConfig {
             )
             .oauth2ResourceServer(oauth2ResourceServer ->
                 oauth2ResourceServer.jwt(Customizer.withDefaults()));
-        http.apply(new FederatedIdentityConfigurer());
 
         return http.build();
     }
@@ -170,11 +171,11 @@ public class AuthorizationSecurityConfig {
         return new InMemoryOAuth2AuthorizationService();
     }
 
-    @Bean
+    /*@Bean
     public OAuth2AuthorizationConsentService authorizationConsentService() {
         // Will be used by the ConsentController
         return new InMemoryOAuth2AuthorizationConsentService();
-    }
+    }*/
 
     /*@Bean
     public UserDetailsService userDetailsService() {

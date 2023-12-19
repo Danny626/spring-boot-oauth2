@@ -57,7 +57,10 @@ public class Client {
                 .collect(Collectors.toSet())))
             .clientIdIssuedAt(new Date().toInstant())
             .clientSettings(ClientSettings
-                .builder().requireProofKey(client.isRequireProofKey()).build());
+                .builder()
+                .requireProofKey(client.isRequireProofKey())
+                .requireAuthorizationConsent(true)
+                .build());
         return builder.build();
     }
 
