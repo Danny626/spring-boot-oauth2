@@ -93,15 +93,15 @@ public class AuthorizationSecurityConfig {
                 deviceAuthorizationEndpoint.verificationUri("/activate")
             )
             .deviceVerificationEndpoint(deviceVerificationEndpoint ->
-                deviceVerificationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)
+                deviceVerificationEndpoint.consentPage()
             )
             .clientAuthentication(clientAuthentication ->
                 clientAuthentication
                     .authenticationConverter(deviceClientAuthenticationConverter)
-                    .authenticationProvider(deviceClientAuthenticationProvider)
+                    .authenticationProvider(deviceClientAutheCUSTOM_CONSENT_PAGE_URInticationProvider)
             )*/
-            /*.authorizationEndpoint(authorizationEndpoint ->
-                authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))*/
+            .authorizationEndpoint(authorizationEndpoint ->
+                authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
             .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
 
         http
