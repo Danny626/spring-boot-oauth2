@@ -76,6 +76,7 @@ public class ClientService implements RegisteredClientRepository {
             .clientSecret(passwordEncoder.encode(request.getClientSecret()))
             .authenticationMethods(request.getAuthenticationMethods())
             .authorizationGrantTypes(request.getAuthorizationGrantTypes())
+            .postLogoutRedirectUris(request.getPostLogoutRedirectUris())
 //            .redirectUris(request.getRedirectUris())
 //            .scopes(request.getScopes())
             .requireProofKey(request.isRequireProofKey())

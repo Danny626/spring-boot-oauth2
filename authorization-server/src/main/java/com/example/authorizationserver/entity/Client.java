@@ -30,6 +30,8 @@ public class Client {
     private Set<ClientAuthenticationMethod> authenticationMethods;
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<ClientRedirectUrl> redirectUris;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> postLogoutRedirectUris;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "client_scope_mapping",
         joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
@@ -51,6 +53,7 @@ public class Client {
                     .stream()
                     .map(ClientRedirectUrl::getUrl)
                     .collect(Collectors.toSet())))
+            .postLogoutRedirectUris(pl -> pl.addAll(client.getPostLogoutRedirectUris()))
             .scopes(sc -> sc.addAll(client.getScopes()
                 .stream()
                 .map(ClientScope::getScope)

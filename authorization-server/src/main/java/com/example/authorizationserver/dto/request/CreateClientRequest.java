@@ -18,6 +18,7 @@ public class CreateClientRequest {
     private Set<ClientAuthenticationMethod> authenticationMethods;
     private Set<AuthorizationGrantType> authorizationGrantTypes;
     private Set<String> redirectUris;
+    private Set<String> postLogoutRedirectUris;
     private Collection<String> scopes;
     private boolean requireProofKey;
 }

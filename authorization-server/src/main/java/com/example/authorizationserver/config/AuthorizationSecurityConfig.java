@@ -79,7 +79,7 @@ public class AuthorizationSecurityConfig {
 
         http.cors(Customizer.withDefaults());
         http.csrf(csrf -> csrf
-            .ignoringRequestMatchers("/auth/**", "/client/**"));
+            .ignoringRequestMatchers("/auth/**", "/client/**", "/logged-out"));
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         /*DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
@@ -130,7 +130,7 @@ public class AuthorizationSecurityConfig {
         http
             .authorizeHttpRequests(authorize ->
                 authorize
-                    .requestMatchers("/auth/**", "/client/**", "/login").permitAll()
+                    .requestMatchers("/auth/**", "/client/**", "/login", "/logged-out").permitAll()
                     .anyRequest().authenticated()
             )
             .formLogin(formLogin ->
@@ -147,7 +147,7 @@ public class AuthorizationSecurityConfig {
           logout.logoutSuccessUrl("http://127.0.0.1:4200/logout");
         });
         http.csrf(csrf -> csrf
-            .ignoringRequestMatchers("/auth/**", "/client/**"));
+            .ignoringRequestMatchers("/auth/**", "/client/**", "/logged-out"));
 
         return http.build();
     }
